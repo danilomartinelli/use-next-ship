@@ -1,0 +1,56 @@
+{
+  "name": "use-next-ship",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A production-ready Next.js project template with CI/CD pipeline for deploying to Kubernetes. This project utilizes modern web development practices using Nix, devenv, Docker, Helm, Kubernetes, and GitHub Actions.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danilomartinelli/use-next-ship.git"
+  },
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check",
+    "format": "biome format --write",
+    "check": "biome check && tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:setup": "tsx scripts/setup-test-db.ts",
+    "test:teardown": "tsx scripts/teardown-test-db.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "docs:lint": "npx markdownlint README.md docs/**/*.md",
+    "docs:fix": "npx markdownlint --fix README.md docs/**/*.md"
+  },
+  "dependencies": {
+    "@t3-oss/env-nextjs": "^0.13.8",
+    "better-auth": "^1.3.27",
+    "drizzle-orm": "^0.44.6",
+    "next": "15.5.6",
+    "postgres": "^3.4.7",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "redis": "^5.8.3",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^22.18.11",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.5",
+    "lefthook": "^1.13.6",
+    "tailwindcss": "^4",
+    "tsx": "^4.20.6",
+    "typescript": "^5",
+    "vitest": "^3.2.4"
+  },
+  "author": "danilomartinelli",
+  "license": "BSD-3-Clause",
+  "packageManager": "pnpm@10.11.0"
+}

@@ -1,0 +1,30 @@
+name: Quality Checks
+on:
+  push:
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [22]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Run linter and typecheck
+        run: pnpm check
+        env:
+          SKIP_ENV_VALIDATION: true
+
+  # TODO: add tests job here in the future

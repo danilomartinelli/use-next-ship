@@ -1,0 +1,279 @@
+{
+  "javascript.format.enable": false,
+  "typescript.format.enable": false,
+  "eslint.enable": false,
+  "prettier.enable": false,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "never",
+    "source.sortImports": "never"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit",
+      "source.sortImports": "never"
+    }
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit",
+      "source.sortImports": "never"
+    }
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit",
+      "source.sortImports": "never"
+    }
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit",
+      "source.sortImports": "never"
+    }
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit",
+      "source.sortImports": "never"
+    }
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit",
+      "source.sortImports": "never"
+    }
+  },
+  "[html]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit",
+      "source.sortImports": "never"
+    }
+  },
+  "[css]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit",
+      "source.sortImports": "never"
+    }
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit",
+      "source.sortImports": "never"
+    }
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit",
+      "source.sortImports": "never"
+    }
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  "tailwindCSS.classFunctions": [
+    "tw",
+    "twMerge",
+    "cn",
+    "cva",
+    "clsx",
+    "className",
+    "classNames",
+    "classList",
+    "styled",
+    "css",
+    "sortCx"
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["tw`([^`]*)`", "([^`]*)"],
+    ["tw\\.\\w+`([^`]*)`", "([^`]*)"]
+  ],
+  "tailwindCSS.classAttributes": [
+    "class",
+    "classes",
+    "className",
+    "className:",
+    "ngClass",
+    "class:",
+    "class:list",
+    "classlist",
+    "classNames",
+    "css",
+    "style"
+  ],
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.validate": true,
+  "tailwindRainbow.languages": [
+    "html",
+    "javascriptreact",
+    "javascript",
+    "markdown",
+    "typescript",
+    "typescriptreact"
+  ],
+  "tailwindRainbow.classIdentifiers": [
+    "class",
+    "classes",
+    "className",
+    "className:",
+    "ngClass",
+    "class:",
+    "class:list",
+    "classlist",
+    "classNames",
+    "css",
+    "style"
+  ],
+  "tailwindRainbow.themes": {
+    "monokai-rainbow": {
+      "prefix": {
+        "hover": { "color": "#F92672", "fontWeight": "bold" },
+        "focus": { "color": "#A6E22E", "fontWeight": "bold" },
+        "focus-visible": { "color": "#A6E22E", "fontStyle": "italic" },
+        "active": { "color": "#FD971F", "fontWeight": "bold" },
+        "disabled": { "color": "#75715E", "fontStyle": "italic" },
+
+        "before": { "color": "#AE81FF" },
+        "after": { "color": "#AE81FF" },
+        "first": { "color": "#AE81FF" },
+        "last": { "color": "#AE81FF" },
+
+        "data-*": { "color": "#E6DB74" },
+        "aria-*": { "color": "#66D9EF" },
+        "in-*": { "color": "#66D9EF" },
+        "group-*": { "color": "#66D9EF" },
+        "peer-*": { "color": "#66D9EF" }
+      },
+
+      "base": {
+        "text-*": { "color": "#A6E22E" },
+        "bg-*": { "color": "#FD971F", "fontWeight": "semibold" },
+        "border-*": { "color": "#66D9EF" },
+        "ring-*": { "color": "#66D9EF" },
+        "outline-*": { "color": "#AE81FF" },
+        "outline-brand": { "color": "#AE81FF", "fontWeight": "bold" },
+        "font-*": { "color": "#AE81FF" },
+        "text-sm": { "color": "#A6E22E" },
+        "text-md": { "color": "#A6E22E" },
+        "text-xl": { "color": "#A6E22E" },
+        "leading-*": { "color": "#AE81FF" },
+        "tracking-*": { "color": "#AE81FF" },
+        "relative": { "color": "#F8F8F2" },
+        "inline-flex": { "color": "#F8F8F2" },
+        "items-*": { "color": "#66D9EF" },
+        "justify-*": { "color": "#66D9EF" },
+        "whitespace-*": { "color": "#F8F8F2" },
+        "pointer-events-*": { "color": "#F8F8F2" },
+        "shrink-*": { "color": "#F8F8F2" },
+        "p-*": { "color": "#E6DB74" },
+        "px-*": { "color": "#E6DB74" },
+        "py-*": { "color": "#E6DB74" },
+        "m-*": { "color": "#E6DB74" },
+        "gap-*": { "color": "#E6DB74" },
+        "inset-*": { "color": "#E6DB74" },
+        "w-*": { "color": "#66D9EF" },
+        "h-*": { "color": "#66D9EF" },
+        "max-w-*": { "color": "#66D9EF" },
+        "max-h-*": { "color": "#66D9EF" },
+        "rounded-*": { "color": "#AE81FF" },
+        "transition": { "color": "#E6DB74" },
+        "transition-*": { "color": "#E6DB74" },
+        "duration-*": { "color": "#E6DB74" },
+        "ease-*": { "color": "#E6DB74" },
+        "transition-inherit-all": { "color": "#E6DB74" },
+        "fill-*": { "color": "#AE81FF" },
+        "stroke-*": { "color": "#AE81FF" }
+      },
+      "arbitrary": { "color": "#AE81FF", "fontStyle": "italic" },
+      "important": { "color": "#F92672", "fontWeight": "bold" }
+    }
+  },
+  "tailwindRainbow.theme": "monokai-rainbow",
+  "claude-code.environmentVariables": [
+    {
+      "name": "CLAUDE_CODE_MAX_OUTPUT_TOKENS",
+      "value": "128000"
+    }
+  ],
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "nil",
+  "nix.serverSettings": {
+    "nil": {
+      "formatting": {
+        "command": ["nixfmt"]
+      }
+    }
+  }
+}

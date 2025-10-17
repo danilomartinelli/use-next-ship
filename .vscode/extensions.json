@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "biomejs.biome",
+    "bradlc.vscode-tailwindcss",
+    "esdete.tailwind-rainbow",
+    "pinage404.nix-extension-pack",
+    "anthropic.claude-code"
+  ]
+}
