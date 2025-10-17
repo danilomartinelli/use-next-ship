@@ -23,8 +23,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "docs:lint": "npx markdownlint README.md docs/**/*.md",
-    "docs:fix": "npx markdownlint --fix README.md docs/**/*.md"
+    "docs:lint": "npx markdownlint README.md CLAUDE.md docs/**/*.md",
+    "docs:fix": "npx markdownlint --fix README.md CLAUDE.md docs/**/*.md"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.13.8",

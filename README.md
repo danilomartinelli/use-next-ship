@@ -1,10 +1,10 @@
 # Use Next Ship
 
-A production-ready Next.js project template with CI/CD pipeline for deploying to Kubernetes. This project utilizes modern web development practices using Nix, devenv, Docker, Helm, Kubernetes, and GitHub Actions.
+A production-ready Next.js 15+ boilerplate with complete CI/CD pipeline for Kubernetes deployments. Built with TypeScript, BetterAuth.js, Drizzle ORM, and includes reproducible development environments using Nix/devenv.
 
 ## Overview
 
-This repository serves as a comprehensive template for building and deploying Next.js applications with a focus on best practices, scalability, and maintainability. It integrates a variety of tools and technologies to streamline the development workflow and ensure consistent environments across different stages of development and deployment.
+Use Next Ship is a batteries-included template that combines modern web development practices with enterprise-grade DevOps workflows. It provides everything you need to build, test, and deploy scalable Next.js applications with confidence - from local development with consistent environments to production deployments on Kubernetes.
 
 ### What This Project Uses
 
@@ -17,32 +17,78 @@ This repository serves as a comprehensive template for building and deploying Ne
 - **CI/CD Pipeline**: GitHub Actions with reusable workflows
 - **AI Development Tools**: Claude Code integrated into the development environment
 
-**Next.js Best Practices (minimal but important):**
+**Application Stack:**
 
-- **T3 Stack**: TypeScript, tRPC, Tailwind CSS, and BetterAuth.js
-- **Database**: PostgreSQL with Drizzle ORM
-- **Authentication**: BetterAuth.js with credential-based auth
-- **Testing**: Vitest for unit and integration testing
-- **Styling**: Tailwind CSS
-- **Type Safety**: End-to-end type safety with tRPC
-- **Rate Limiting**: Built-in API route protection (with Redis)
-- **Fast Testing**: Transaction rollbacks and MD5 hashing for speedy database tests
+- **Framework**: Next.js 15+ with App Router and React 19
+- **Type Safety**: TypeScript with strict mode, Zod validation
+- **Database**: PostgreSQL with Drizzle ORM (type-safe queries)
+- **Authentication**: BetterAuth.js with organizations support
+- **Styling**: Tailwind CSS v4 with PostCSS
+- **Testing**: Vitest with transaction rollbacks for fast database tests
+- **Code Quality**: Biome for linting/formatting, Lefthook for git hooks
+- **Session Storage**: Redis for caching and rate limiting (optional)
 
 ## Table of Contents
 
+- [Architecture](#architecture)
 - [Prerequisites](#prerequisites)
 - [Local Development Setup](#local-development-setup)
 - [Running the Application](#running-the-application)
+- [Project Structure](#project-structure)
+- [Database Schema](#database-schema)
+- [Authentication](#authentication)
+- [API Documentation](#api-documentation)
 - [AI Development Tools](#ai-development-tools)
 - [Development Commands](#development-commands)
 - [Testing](#testing)
-- [Project Structure](#project-structure)
 - [CI/CD Pipeline](#cicd-pipeline)
 - [Deployment](#deployment)
 - [Secrets Management](#secrets-management)
 - [Using as a Template](#using-as-a-template)
 - [GitHub Secrets Configuration](#github-secrets-configuration)
+- [Environment Variables](#environment-variables)
 - [Troubleshooting](#troubleshooting)
+- [Documentation](#documentation)
+- [Next Steps](#next-steps)
+
+## Architecture
+
+### High-Level Architecture
+
+```text
+┌─────────────────────────────────────────────────────────┐
+│                     Frontend (Next.js)                   │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │  App Router  │  React Components  │  Tailwind  │    │
+│  └─────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────┘
+                              │
+                              ↓
+┌─────────────────────────────────────────────────────────┐
+│                    API Layer                             │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │  API Routes  │  BetterAuth  │  Middleware       │    │
+│  └─────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────┘
+                              │
+                              ↓
+┌─────────────────────────────────────────────────────────┐
+│                    Data Layer                            │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │  Drizzle ORM  │  PostgreSQL  │  Redis (opt)     │    │
+│  └─────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Deployment Architecture
+
+```text
+GitHub → CI/CD → Docker Hub → Kubernetes Cluster
+         ↓
+      SOPS Decryption
+         ↓
+      Helm Deployment
+```
 
 ## Prerequisites
 
@@ -172,6 +218,198 @@ pnpm db:push
 ### Access the Application
 
 Visit <http://localhost:3000> in your browser to see your Next.js application running!
+
+## Project Structure
+
+```text
+use-next-ship/
+├── src/                      # Source code
+│   ├── app/                  # Next.js App Router
+│   │   ├── api/             # API routes
+│   │   │   └── auth/        # Authentication endpoints
+│   │   ├── healthz/         # Health check endpoint
+│   │   ├── layout.tsx       # Root layout
+│   │   └── page.tsx         # Home page
+│   ├── lib/                 # Shared utilities
+│   │   └── auth-client.ts   # Auth client configuration
+│   ├── server/              # Server-side code
+│   │   ├── auth/           # Authentication setup
+│   │   └── db/             # Database configuration
+│   │       ├── schema.ts   # Database schema
+│   │       ├── index.ts    # Database connection
+│   │       └── test-db.ts  # Test database setup
+│   └── env.js              # Environment validation
+├── chart/                   # Helm charts
+│   ├── templates/          # Kubernetes manifests
+│   └── values/             # Environment configs
+├── scripts/                # Utility scripts
+├── drizzle/               # Database migrations
+├── .github/               # GitHub Actions workflows
+├── devenv.nix             # Development environment
+└── package.json           # Dependencies
+```
+
+### File Organization Patterns
+
+- **Features by Domain**: Code organized by feature domains
+- **Colocation**: Related files kept together
+- **Type Definitions**: Centralized in schema files
+- **Configuration**: Environment-specific configs in dedicated directories
+
+### Key Technologies
+
+- **Next.js 15+** - React framework with App Router
+- **TypeScript** - Type safety throughout the stack
+- **Drizzle ORM** - Type-safe database ORM with PostgreSQL
+- **PostgreSQL** - Database (configured via devenv)
+- **BetterAuth.js** - Authentication framework
+- **Tailwind CSS** - Utility-first CSS framework
+- **Vitest** - Fast unit testing framework
+- **Docker** - Containerization
+- **Kubernetes + Helm** - Orchestration and deployment
+- **GitHub Actions** - CI/CD pipeline
+
+## Database Schema
+
+### User Tables
+
+```typescript
+// User: Core user information
+user {
+  id: text (PK)
+  name: text
+  email: text (unique)
+  emailVerified: boolean
+  image: text?
+  createdAt: timestamp
+  updatedAt: timestamp
+}
+
+// Session: Active user sessions
+session {
+  id: text (PK)
+  userId: text (FK → user.id)
+  token: text (unique)
+  expiresAt: timestamp
+  activeOrganizationId: text?
+  ipAddress: text?
+  userAgent: text?
+}
+```
+
+### Organization Tables
+
+```typescript
+// Organization: Team/company entities
+organization {
+  id: text (PK)
+  name: text
+  slug: text (unique)
+  logo: text?
+  metadata: text?
+}
+
+// Member: User-organization relationships
+member {
+  id: text (PK)
+  organizationId: text (FK → organization.id)
+  userId: text (FK → user.id)
+  role: text (default: "member")
+}
+
+// Invitation: Pending organization invites
+invitation {
+  id: text (PK)
+  organizationId: text (FK → organization.id)
+  email: text
+  role: text?
+  status: text (default: "pending")
+  expiresAt: timestamp
+  inviterId: text (FK → user.id)
+}
+```
+
+### Authentication Tables
+
+```typescript
+// Account: Authentication providers
+account {
+  id: text (PK)
+  userId: text (FK → user.id)
+  providerId: text
+  accountId: text
+  password: text?
+  // OAuth tokens
+  accessToken, refreshToken, idToken
+}
+
+// Verification: Email/token verification
+verification {
+  id: text (PK)
+  identifier: text
+  value: text
+  expiresAt: timestamp
+}
+```
+
+## Authentication
+
+### Setup
+
+Authentication is configured in `src/server/auth/index.ts`:
+
+- Drizzle adapter for database persistence
+- Email/password authentication enabled
+- Organization plugin for team management
+- Environment-aware base URL configuration
+
+### Client Integration
+
+The auth client (`src/lib/auth-client.ts`) provides:
+
+- Session management hooks
+- Authentication utilities
+- Type-safe user context
+
+### API Routes
+
+Authentication endpoints at `/api/auth/[...all]`:
+
+- Sign up/Sign in
+- Session management
+- Password reset
+- Organization management
+
+## API Documentation
+
+### Health Check Endpoint
+
+**GET** `/healthz`
+
+- **Purpose**: Kubernetes liveness/readiness probe
+- **Response**: `200 OK` with JSON `{ status: "ok" }`
+
+### Authentication Endpoints
+
+**Base Path**: `/api/auth`
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/signup` | POST | User registration |
+| `/signin` | POST | User login |
+| `/signout` | POST | End session |
+| `/session` | GET | Current session info |
+| `/forgot-password` | POST | Password reset request |
+| `/reset-password` | POST | Complete password reset |
+
+### Organization Endpoints
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/organization/create` | POST | Create organization |
+| `/organization/invite` | POST | Invite member |
+| `/organization/members` | GET | List members |
+| `/organization/update` | PUT | Update organization |
 
 ## AI Development Tools
 
@@ -331,32 +569,6 @@ Tests are organized alongside the source code:
 - `src/lib/**/*.test.ts` - Utility and library tests
 - `src/server/**/*.test.ts` - Server-side logic tests
 
-## Project Structure
-
-This Next.js project follows the App Router structure with additional tooling:
-
-- **`src/app/`** - Next.js App Router pages and API routes
-- **`src/lib/`** - Shared utilities and configurations
-- **`src/server/`** - Server-side code (tRPC routers, database)
-- **`src/styles/`** - Global styles and Tailwind configuration
-- **`chart/`** - Helm chart for Kubernetes deployment
-- **`scripts/`** - Build and utility scripts
-- **`drizzle/`** - Database migrations and schema
-
-### Key Technologies
-
-- **Next.js 15+** - React framework with App Router
-- **TypeScript** - Type safety throughout the stack
-- **tRPC** - End-to-end type-safe APIs
-- **Drizzle ORM** - Type-safe database ORM
-- **PostgreSQL** - Database (configured via devenv)
-- **BetterAuth.js** - Authentication framework
-- **Tailwind CSS** - Utility-first CSS framework
-- **Vitest** - Fast unit testing framework
-- **Docker** - Containerization
-- **Kubernetes + Helm** - Orchestration and deployment
-- **GitHub Actions** - CI/CD pipeline
-
 ## CI/CD Pipeline
 
 This project uses GitHub Actions with a reusable workflow architecture that supports deploying to multiple environments (staging, production, etc.).
@@ -404,6 +616,14 @@ graph TD
 
 ## Deployment
 
+### Docker Build
+
+The application uses a multi-stage Docker build:
+
+1. **Dependencies**: Install production dependencies
+2. **Build**: Compile Next.js application
+3. **Runtime**: Minimal production image
+
 ### Helm Chart Structure
 
 The Kubernetes deployment uses Helm for templating and configuration management:
@@ -434,6 +654,12 @@ The deployment command looks like:
 ```bash
 make IMAGE_TAG=sha-123 ENVIRONMENT=prod NAMESPACE=hellok8s KUBECONFIG=/path/to/kubeconfig.yaml deploy
 ```
+
+### Environment Management
+
+- **Development**: Local devenv with PostgreSQL
+- **Staging**: Kubernetes namespace with test data
+- **Production**: Kubernetes with production secrets
 
 ## Secrets Management
 
@@ -494,6 +720,27 @@ git push -u origin main
 ### 3. Set Up Your Development Environment
 
 Follow the [Local Development Setup](#local-development-setup) instructions above.
+
+### Common Customization Tasks
+
+**Add a new database table**:
+
+1. Define schema in `src/server/db/schema.ts`
+2. Run `pnpm db:generate` for migration
+3. Run `pnpm db:push` to apply
+
+**Add authentication provider**:
+
+1. Configure in `src/server/auth/index.ts`
+2. Update environment variables
+3. Test with `pnpm dev`
+
+**Deploy to production**:
+
+1. Push to main branch
+2. CI/CD builds and tests
+3. Docker image pushed to registry
+4. Helm deploys to Kubernetes
 
 ## GitHub Secrets Configuration
 
@@ -569,6 +816,38 @@ If you prefer to use AWS ECR, Google Container Registry, or another registry ins
 2. Update the Docker registry configuration in `.github/workflows/build.yml` files (there's a commented out example for AWS ECR)
 3. Update the Helm chart's image repository settings in `chart/values.yaml` (you'll also need to add imagePullSecrets since this will likely be a private registry).
 
+## Environment Variables
+
+### Required for Production
+
+| Variable | Purpose |
+|----------|---------|
+| `BETTER_AUTH_SECRET` | Authentication encryption key |
+| `DATABASE_URL` | PostgreSQL connection string |
+| `NEXT_PUBLIC_BASE_URL` | Application URL |
+
+### Optional
+
+| Variable | Purpose |
+|----------|---------|
+| `BETTER_AUTH_URL` | Override auth URL (non-Vercel) |
+| `REDIS_URL` | Redis for caching/rate limiting |
+
+### Version Management
+
+All software versions are pinned in `devenv.nix`:
+
+- Node.js version
+- PostgreSQL version
+- Development tools
+
+This ensures consistency across:
+
+- Local development
+- Docker builds
+- CI/CD pipeline
+- Production deployments
+
 ## Troubleshooting
 
 ### Common Issues and Solutions
@@ -601,11 +880,11 @@ If you prefer to use AWS ECR, Google Container Registry, or another registry ins
 - Check for missing dependencies: `pnpm install`
 - Verify TypeScript configuration in `tsconfig.json`
 
-**Problem: tRPC connection issues**
+**Problem: API connection issues**
 
 - Ensure the database is running and schema is up to date
 - Check environment variables are loaded correctly
-- Verify tRPC client configuration in `src/trpc/react.tsx`
+- Verify API routes are properly configured
 
 #### Docker & Deployment
 
@@ -634,6 +913,14 @@ If you prefer to use AWS ECR, Google Container Registry, or another registry ins
 - Make sure your `.env` file is in the project root
 - Check that direnv is loading the environment: `direnv status`
 - Verify environment variable names match Next.js requirements (NEXT*PUBLIC* prefix for client-side vars)
+
+#### Authentication Errors
+
+**Problem: Authentication not working**
+
+- Verify `BETTER_AUTH_SECRET` is set
+- Check `BETTER_AUTH_URL` for deployments
+- Review session configuration
 
 ### Getting Help
 
@@ -672,8 +959,79 @@ sops -d chart/values/prod/secrets.yaml
 
 ---
 
+## Documentation
+
+For more detailed information about specific topics, please refer to our comprehensive documentation:
+
+- **[Architecture Overview](docs/ARCHITECTURE.md)** - System design, component architecture, and technical decisions
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Local development, Docker, Kubernetes, and platform deployments
+- **[API Documentation](docs/API.md)** - API routes, authentication, validation, and best practices
+- **[Troubleshooting Guide](docs/TROUBLESHOOTING.md)** - Common issues, solutions, and debugging tips
+- **[Contributing Guidelines](docs/CONTRIBUTING.md)** - How to contribute, coding standards, and pull request process
+- **[Security Best Practices](docs/SECURITY.md)** - Security guidelines, vulnerability management, and incident response
+
+## Next Steps
+
+The following features and improvements are planned for this template:
+
+### Infrastructure & DevOps
+
+- [ ] **Complete Helm Chart Configuration** - Finish the chart folder with production-ready Kubernetes manifests
+- [ ] **Terraform Module** - Create a reusable Terraform module for infrastructure provisioning
+- [ ] **Lefthook Git Hooks** - Integrate Lefthook as post-commit hooks in devenv.nix for automated quality checks
+- [ ] **GitHub Actions Workflows** - Complete build and deploy workflows for staging/production environments
+- [ ] **Container Registry Setup** - Add support for AWS ECR, Google Container Registry
+
+### Application Features
+
+- [ ] **tRPC Integration** - Add tRPC to the boilerplate for type-safe API development
+- [ ] **Redis Integration** - Fully integrate Redis for caching, rate limiting, and session management
+- [ ] **Multi-tenant Middleware** - Create middleware to manage tenants and multi-domain support
+  - Subdomain-based tenant isolation
+  - Custom domain mapping
+  - Tenant-specific database schemas
+  - Cross-tenant data isolation
+- [ ] **BetterAuth Providers** - Add example OAuth providers (Google, GitHub, Discord)
+- [ ] **Component Library** - Create starter components:
+  - Authentication forms (login, register, forgot password)
+  - Dashboard layout with navigation
+  - Data tables with sorting/filtering
+  - Form components with validation
+  - Loading states and error boundaries
+  - Toast notifications
+- [ ] **API Rate Limiting** - Implement Redis-based rate limiting middleware
+- [ ] **Email Service** - Add email templates and sending service (React Email + Resend/SendGrid)
+
+### Testing & Quality
+
+- [ ] **Comprehensive Test Suite** - Create starter tests with examples for:
+  - Unit tests for utilities
+  - Integration tests for API routes
+  - E2E tests for critical user flows
+  - Database transaction tests
+
+### Documentation
+
+- [ ] **Documentation Hub** - Create comprehensive docs in the `docs/` folder:
+  - Architecture decision records (ADRs)
+  - API documentation
+  - Deployment guides
+  - Troubleshooting guides
+  - Contributing guidelines
+  - Security best practices
+
+### Contributing
+
+Want to help implement these features? Contributions are welcome! Please:
+
+1. Check the [Issues](https://github.com/danilomartinelli/use-next-ship/issues) for existing discussions
+2. Fork the repository and create a feature branch
+3. Implement your feature following the existing code style
+4. Add tests and documentation
+5. Submit a pull request with a clear description
+
+---
+
 ## License
 
 This project is open source and available under the [BSD 3-Clause License](LICENSE).
-
----
