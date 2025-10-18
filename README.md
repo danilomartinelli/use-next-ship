@@ -1012,7 +1012,7 @@ The following features and improvements are planned for this template:
 
 ### Documentation
 
-- [ ] **Documentation Hub** - Create comprehensive docs in the `docs/` folder:
+- [x] **Documentation Hub** - Create comprehensive docs in the `docs/` folder:
   - Architecture decision records (ADRs)
   - API documentation
   - Deployment guides
