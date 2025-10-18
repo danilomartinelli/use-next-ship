@@ -984,7 +984,7 @@ The following features and improvements are planned for this template:
 
 ### Application Features
 
-- [ ] **tRPC Integration** - Add tRPC to the boilerplate for type-safe API development
+- [x] **tRPC Integration** - Add tRPC to the boilerplate for type-safe API development
 - [ ] **Redis Integration** - Fully integrate Redis for caching, rate limiting, and session management
 - [ ] **Multi-tenant Middleware** - Create middleware to manage tenants and multi-domain support
   - Subdomain-based tenant isolation
