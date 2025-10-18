@@ -38,6 +38,7 @@ export const session = createTable("session", (d) => ({
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   activeOrganizationId: d.text("active_organization_id"),
+  activeTeamId: d.text("active_team_id"),
 }));
 
 export const account = createTable("account", (d) => ({
@@ -75,6 +76,32 @@ export const verification = createTable("verification", (d) => ({
     .notNull(),
 }));
 
+export const team = createTable("team", (d) => ({
+  id: d.text("id").primaryKey(),
+  name: d.text("name").notNull(),
+  organizationId: d
+    .text("organization_id")
+    .notNull()
+    .references(() => organization.id, { onDelete: "cascade" }),
+  createdAt: d.timestamp("created_at").notNull(),
+  updatedAt: d
+    .timestamp("updated_at")
+    .$onUpdate(() => /* @__PURE__ */ new Date()),
+}));
+
+export const teamMember = createTable("team_member", (d) => ({
+  id: d.text("id").primaryKey(),
+  teamId: d
+    .text("team_id")
+    .notNull()
+    .references(() => team.id, { onDelete: "cascade" }),
+  userId: d
+    .text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  createdAt: d.timestamp("created_at"),
+}));
+
 export const organization = createTable("organization", (d) => ({
   id: d.text("id").primaryKey(),
   name: d.text("name").notNull(),
@@ -82,6 +109,7 @@ export const organization = createTable("organization", (d) => ({
   logo: d.text("logo"),
   createdAt: d.timestamp("created_at").notNull(),
   metadata: d.text("metadata"),
+  customDomain: d.text("custom_domain").unique(),
 }));
 
 export const member = createTable("member", (d) => ({
@@ -106,6 +134,7 @@ export const invitation = createTable("invitation", (d) => ({
     .references(() => organization.id, { onDelete: "cascade" }),
   email: d.text("email").notNull(),
   role: d.text("role"),
+  teamId: d.text("team_id"),
   status: d.text("status").default("pending").notNull(),
   expiresAt: d.timestamp("expires_at").notNull(),
   inviterId: d

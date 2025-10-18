@@ -1,5 +1,5 @@
 {
-  "id": "bd22b538-a776-404b-8d6d-523b6234bc86",
+  "id": "3325ed21-5a9c-4f7a-884e-6e811fa2eca5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -94,8 +94,12 @@
           "name": "use_next_ship_account_user_id_use_next_ship_user_id_fk",
           "tableFrom": "use_next_ship_account",
           "tableTo": "use_next_ship_user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -134,6 +138,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "team_id": {
+          "name": "team_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "status": {
           "name": "status",
           "type": "text",
@@ -160,8 +170,12 @@
           "name": "use_next_ship_invitation_organization_id_use_next_ship_organization_id_fk",
           "tableFrom": "use_next_ship_invitation",
           "tableTo": "use_next_ship_organization",
-          "columnsFrom": ["organization_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -169,8 +183,12 @@
           "name": "use_next_ship_invitation_inviter_id_use_next_ship_user_id_fk",
           "tableFrom": "use_next_ship_invitation",
           "tableTo": "use_next_ship_user",
-          "columnsFrom": ["inviter_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "inviter_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -223,8 +241,12 @@
           "name": "use_next_ship_member_organization_id_use_next_ship_organization_id_fk",
           "tableFrom": "use_next_ship_member",
           "tableTo": "use_next_ship_organization",
-          "columnsFrom": ["organization_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -232,8 +254,12 @@
           "name": "use_next_ship_member_user_id_use_next_ship_user_id_fk",
           "tableFrom": "use_next_ship_member",
           "tableTo": "use_next_ship_user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -283,6 +309,12 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "custom_domain": {
+          "name": "custom_domain",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -292,7 +324,16 @@
         "use_next_ship_organization_slug_unique": {
           "name": "use_next_ship_organization_slug_unique",
           "nullsNotDistinct": false,
-          "columns": ["slug"]
+          "columns": [
+            "slug"
+          ]
+        },
+        "use_next_ship_organization_custom_domain_unique": {
+          "name": "use_next_ship_organization_custom_domain_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "custom_domain"
+          ]
         }
       },
       "policies": {},
@@ -357,6 +398,12 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "active_team_id": {
+          "name": "active_team_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -365,8 +412,12 @@
           "name": "use_next_ship_session_user_id_use_next_ship_user_id_fk",
           "tableFrom": "use_next_ship_session",
           "tableTo": "use_next_ship_user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -376,9 +427,132 @@
         "use_next_ship_session_token_unique": {
           "name": "use_next_ship_session_token_unique",
           "nullsNotDistinct": false,
-          "columns": ["token"]
+          "columns": [
+            "token"
+          ]
         }
       },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.use_next_ship_team": {
+      "name": "use_next_ship_team",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "use_next_ship_team_organization_id_use_next_ship_organization_id_fk": {
+          "name": "use_next_ship_team_organization_id_use_next_ship_organization_id_fk",
+          "tableFrom": "use_next_ship_team",
+          "tableTo": "use_next_ship_organization",
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.use_next_ship_team_member": {
+      "name": "use_next_ship_team_member",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "team_id": {
+          "name": "team_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "use_next_ship_team_member_team_id_use_next_ship_team_id_fk": {
+          "name": "use_next_ship_team_member_team_id_use_next_ship_team_id_fk",
+          "tableFrom": "use_next_ship_team_member",
+          "tableTo": "use_next_ship_team",
+          "columnsFrom": [
+            "team_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "use_next_ship_team_member_user_id_use_next_ship_user_id_fk": {
+          "name": "use_next_ship_team_member_user_id_use_next_ship_user_id_fk",
+          "tableFrom": "use_next_ship_team_member",
+          "tableTo": "use_next_ship_user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -440,7 +614,9 @@
         "use_next_ship_user_email_unique": {
           "name": "use_next_ship_user_email_unique",
           "nullsNotDistinct": false,
-          "columns": ["email"]
+          "columns": [
+            "email"
+          ]
         }
       },
       "policies": {},

@@ -19,6 +19,7 @@ CREATE TABLE "use_next_ship_invitation" (
 	"organization_id" text NOT NULL,
 	"email" text NOT NULL,
 	"role" text,
+	"team_id" text,
 	"status" text DEFAULT 'pending' NOT NULL,
 	"expires_at" timestamp NOT NULL,
 	"inviter_id" text NOT NULL
@@ -39,7 +40,9 @@ CREATE TABLE "use_next_ship_organization" (
 	"logo" text,
 	"created_at" timestamp NOT NULL,
 	"metadata" text,
-	CONSTRAINT "use_next_ship_organization_slug_unique" UNIQUE("slug")
+	"custom_domain" text,
+	CONSTRAINT "use_next_ship_organization_slug_unique" UNIQUE("slug"),
+	CONSTRAINT "use_next_ship_organization_custom_domain_unique" UNIQUE("custom_domain")
 );
 --> statement-breakpoint
 CREATE TABLE "use_next_ship_session" (
@@ -52,7 +55,23 @@ CREATE TABLE "use_next_ship_session" (
 	"user_agent" text,
 	"user_id" text NOT NULL,
 	"active_organization_id" text,
+	"active_team_id" text,
 	CONSTRAINT "use_next_ship_session_token_unique" UNIQUE("token")
+);
+--> statement-breakpoint
+CREATE TABLE "use_next_ship_team" (
+	"id" text PRIMARY KEY NOT NULL,
+	"name" text NOT NULL,
+	"organization_id" text NOT NULL,
+	"created_at" timestamp NOT NULL,
+	"updated_at" timestamp
+);
+--> statement-breakpoint
+CREATE TABLE "use_next_ship_team_member" (
+	"id" text PRIMARY KEY NOT NULL,
+	"team_id" text NOT NULL,
+	"user_id" text NOT NULL,
+	"created_at" timestamp
 );
 --> statement-breakpoint
 CREATE TABLE "use_next_ship_user" (
@@ -80,4 +99,7 @@ ALTER TABLE "use_next_ship_invitation" ADD CONSTRAINT "use_next_ship_invitation_
 ALTER TABLE "use_next_ship_invitation" ADD CONSTRAINT "use_next_ship_invitation_inviter_id_use_next_ship_user_id_fk" FOREIGN KEY ("inviter_id") REFERENCES "public"."use_next_ship_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "use_next_ship_member" ADD CONSTRAINT "use_next_ship_member_organization_id_use_next_ship_organization_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."use_next_ship_organization"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "use_next_ship_member" ADD CONSTRAINT "use_next_ship_member_user_id_use_next_ship_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."use_next_ship_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "use_next_ship_session" ADD CONSTRAINT "use_next_ship_session_user_id_use_next_ship_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."use_next_ship_user"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "use_next_ship_session" ADD CONSTRAINT "use_next_ship_session_user_id_use_next_ship_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."use_next_ship_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "use_next_ship_team" ADD CONSTRAINT "use_next_ship_team_organization_id_use_next_ship_organization_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."use_next_ship_organization"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "use_next_ship_team_member" ADD CONSTRAINT "use_next_ship_team_member_team_id_use_next_ship_team_id_fk" FOREIGN KEY ("team_id") REFERENCES "public"."use_next_ship_team"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "use_next_ship_team_member" ADD CONSTRAINT "use_next_ship_team_member_user_id_use_next_ship_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."use_next_ship_user"("id") ON DELETE cascade ON UPDATE no action;

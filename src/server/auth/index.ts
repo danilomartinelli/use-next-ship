@@ -8,9 +8,29 @@ export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
-  plugins: [organization()],
+  baseURL: env.BETTER_AUTH_URL,
+  plugins: [
+    organization({
+      teams: {
+        enabled: true,
+        allowRemovingAllTeams: false,
+      },
+      schema: {
+        organization: {
+          additionalFields: {
+            customDomain: {
+              type: "string",
+              input: true,
+              required: false,
+              unique: true,
+              description: "Custom domain for the organization",
+            },
+          },
+        },
+      },
+    }),
+  ],
   emailAndPassword: {
     enabled: true,
   },
-  baseURL: env.BETTER_AUTH_URL,
 });
