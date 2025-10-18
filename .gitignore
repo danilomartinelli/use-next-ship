@@ -69,3 +69,6 @@ devenv.local.yaml
 
 # pre-commit
 .pre-commit-config.yaml
+
+# AI Agents
+.claude/settings.local.json

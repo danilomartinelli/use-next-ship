@@ -1,7 +1,10 @@
+import "../styles/globals.css";
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import "../styles/globals.css";
+import { RouteProvider } from "./_components/route-provider";
+import { TRPCReactProvider } from "./_components/trpc-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,11 +27,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} antialiased scroll-smooth`}
+      data-scroll-behavior="smooth"
+    >
+      <body>
+        <TRPCReactProvider>
+          <RouteProvider>{children}</RouteProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
