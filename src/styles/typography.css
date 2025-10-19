@@ -425,7 +425,7 @@
 
 /* Remove top margin from first element */
 .prose
-  > :first-child:not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+> :first-child:not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-top: 0;
 }
 .prose > :last-child:not(:where([class~="not-prose"], [class~="not-prose"] *)) {
